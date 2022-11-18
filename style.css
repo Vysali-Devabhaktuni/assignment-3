@@ -1,14 +1,14 @@
 body
 {
-    background-color: gb(126, 24, 126);
+    background-color: rgb(123, 117, 123);
 }
 input
 {
-    color: rgb(1, 6, 10);
+    color: rgb(115, 140, 160);
     font-family: monospace;
     font-size: 15px;
     font-style: italic;
-    background-color: rgb(229, 173, 248);
+    background-color: rgb(0, 0, 0);
     font-weight: bolder;
     text-align: center;
     display: flex;
@@ -22,7 +22,7 @@ label.Register
 
 input.note
 {
-    color: lightslategrey;
+    color: rgb(118, 142, 164);
     font-family: monospace;
     font-size: 15px;
     font-style: italic;
@@ -38,7 +38,7 @@ label.note
 
 input.login
 {
-    color: lightslategrey;
+    color: rgb(79, 83, 88);
     font-family: monospace;
     font-size: 15px;
     font-style: italic;
