@@ -1,70 +1,42 @@
-/*const notes = [
-    {
-      note: "text",
-    },
-    {
-      note: "text",
-    },
-  ];*/
-  
-const con = require("./db_connect");
-
-
-async function createTable() {
-let sql=`CREATE TABLE IF NOT EXISTS notes (
-  noteID INT NOT NULL AUTO_INCREMENT,
-  uname VARCHAR(255) NOT NULL,
-  notetext VARCHAR(255) NOT NULL,
-  CONSTRAINT notePK PRIMARY KEY(noteID)
-); `
-await con.query(sql);
-}
-createTable();
-
-async function create(note) {
-
-const sql = `INSERT INTO notes (uname, notetext)
-  VALUES ("${note.uname}","${note.notetext}");`
-await con.query(sql);
-return {success:"Note Added"};
-}
-
-
-async function getAllNotes() {
- const sql = "SELECT * FROM notes;";
- let notes = await con.query(sql);
- console.log(notes)
- return notes;
-}
-
-
-async function getNote(note) {
-  let sql;
-  
-    sql = `
-      SELECT * FROM notes
-       WHERE noteID = ${note.noteID}
-    `
-  
-  return await con.query(sql);  
-}
-async function deleteNote(note) {
-    let sql = `DELETE FROM notes
-      WHERE noteID = ${note.noteID}
-    `
-    await con.query(sql);
+const express = require('express');
+const   User = require('../models/note');
+const router = express.Router();
+router
+.get('/getNote', async (req, res) => {
+    try {
+      let note = await User.getNote(req.body);
+      res.send(note)
+    } catch(err) {
+      res.status(401).send({message: err.message});
     }
-async function editNote(note) {
-  let sql = `UPDATE notes 
-    SET notetext = "${note.notetext}"
-    WHERE noteID = ${note.noteID}
-  `;
+  })
+
+  .post('/create', async (req, res) => {
+    try {
+      let note = await User.create(req.body);
+      res.send(note)
+    } catch(err) {
+      res.status(401).send({message: err.message});
+    }
+  })
   
-  await con.query(sql);
-  let updatedNote = await getNote(note);
-  return updatedNote[0];
-  }
 
+  .post('/deleteNote', async (req, res) => {
+    try {
+      let note = await User.deleteNote(req.body);
+      res.send(note)
+    } catch(err) {
+      res.status(401).send({message: err.message});
+    }
+  })
+  .post('/editNote', async (req, res) => {
+    try {
+      let note= await User.editNote(req.body);
+      res.send(note)
+    } catch(err) {
+      res.status(401).send({message: err.message});
+    }
+  })
 
-
-module.exports = { getAllNotes, getNote, create, deleteNote, editNote};
+  
+module.exports=router;
