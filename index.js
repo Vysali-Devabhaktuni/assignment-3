@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
 
+
 const userRoutes = require('./server/routes/user');
+const NRoutes =    require('./server/routes/note');
 
 app.use(express.json());
+
 
 //CORS middleware
 app.use(function(req, res, next) {
@@ -14,6 +17,6 @@ app.use(function(req, res, next) {
 });
 
 app.use("/users", userRoutes);
-
+app.use("/notes", NRoutes);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}!`));
